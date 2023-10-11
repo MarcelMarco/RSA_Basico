@@ -1,23 +1,37 @@
-import * as bigInt from 'big-integer';
+import { base64ToBigint, bigintToBase64} from 'bigint-conversion';
+import * as bcu from 'bigint-crypto-utils'
 
-class RsaPubKey {
-  e: bigInt.BigInteger;
-  n: bigInt.BigInteger;
+export default class RsaPubKey {
+  e: bigint
+  n: bigint
 
-  constructor(e: bigInt.BigInteger, n: bigInt.BigInteger) {
+  constructor(e: bigint, n: bigint) {
     this.e = e;
     this.n = n;
   }
 
-  encrypt(m: bigInt.BigInteger): bigInt.BigInteger {
+  encrypt(m: bigint): bigint {
     // C = m^e mod n
-    return m.modPow(this.e, this.n);
+    return bcu.modPow(m, this.e, this.n);
   }
 
-  verify(s: bigInt.BigInteger): bigInt.BigInteger {
+  verify(s: bigint): bigint {
     // m = s^e mod n
-    return s.modPow(this.e, this.n);
+    return bcu.modPow(s, this.e, this.n);
   }
+
+  toJSON(){
+    const pubKeyJson = {
+      e: bigintToBase64(this.e),
+      n: bigintToBase64(this.n)
+    }
+    return pubKeyJson
+  }
+  
+  static fromJSON(pubKeyJson){
+    return new RsaPubKey(base64ToBigint
+     (pubKeyJson.e), base64ToBigint(pubKeyJson.n))
+  }
+
 }
 
-export default RsaPubKey;

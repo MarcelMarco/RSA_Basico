@@ -1,22 +1,22 @@
-import * as bigInt from 'big-integer';
+import * as bcu from 'bigint-crypto-utils'
 
 class RsaPrivKey {
-  d: bigInt.BigInteger;
-  n: bigInt.BigInteger;
+  d: bigint;
+  n: bigint;
 
-  constructor(d: bigInt.BigInteger, n: bigInt.BigInteger) {
+  constructor(d: bigint, n: bigint) {
     this.d = d;
     this.n = n;
   }
 
-  decrypt(c: bigInt.BigInteger): bigInt.BigInteger {
+  decrypt(c: bigint): bigint {
     // m = c^d mod n
-    return c.modPow(this.d, this.n);
+    return bcu.modPow(c, this.d, this.n);
   }
 
-  sign(m: bigInt.BigInteger): bigInt.BigInteger {
+  sign(m: bigint): bigint {
     // s = m^d mod n
-    return m.modPow(this.d, this.n);
+    return bcu.modPow(m, this.d, this.n);
   }
 }
 

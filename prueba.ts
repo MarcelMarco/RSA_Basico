@@ -2,6 +2,7 @@ import RsaPubKey from './RsaPubKey';
 import RsaPrivKey from './RsaPrivKey';
 import * as rsaUtils from 'bigint-crypto-utils';
 import * as bigInt from 'big-integer';
+import * as bcu from 'bigint-crypto-utils'
 
 function generateRSAKeys() {
   const p = bigInt('3');
